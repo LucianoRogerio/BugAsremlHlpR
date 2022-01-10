@@ -9,3 +9,497 @@ editor_options:
 ---
 
 Welcome to my research website.
+
+## Install AlphaSimHlpR from LucianoRogerio github user
+
+
+```{r, eval = FALSE}
+library(devtools)
+install_github("LucianoRogerio/AlphaSimHlpR", force = T, ref = "MarninPkg")
+```
+
+## Call all the packages required 
+
+Change the working directory to the zip paste decompressed.
+
+```{r}
+suppressMessages(library(AlphaSimHlpR))
+suppressMessages(library(tidyverse))
+library(dplyr); library(furrr); library(here)
+
+select <- dplyr::select
+mutate <- dplyr::mutate
+```
+
+## Run the simulations parameters
+
+```{r}
+library(here)
+### Small VDP scheme
+schemeDF <- read.csv(here::here("data","baselineScheme - Test.csv"),
+                     header = T, stringsAsFactors = F, sep = ";")
+schemeDF
+
+# Small alternative VDP scheme, number of entries were increased per stage
+NschemeDF <- read.csv(here::here("data","baselineScheme - Test2.csv"),
+                     header = T, stringsAsFactors = F, sep = ";")
+NschemeDF
+
+bsp1 <- specifyBSP(schemeDF = schemeDF,
+                   nTrainPopCycles = 4, nYrsAsCandidates = 3, maxTrainingPopSize = 150,
+                   nChr = 4, effPopSize = 200, quickHaplo = F,
+                   segSites = 165, nQTL = 100, nSNP = 50, genVar = 1500,
+                   gxeVar = NULL, gxyVar = 1500, gxlVar = 750, gxyxlVar = 300,
+                   meanDD = 0.23, varDD = 0.05, relAA = 0.5,
+                   stageToGenotype = "PYT",
+                   nParents = 100, nCrosses = 100, nProgeny = 5, nClonesToNCRP = 3,
+                   phenoF1toStage1 = F, errVarPreStage1 = 17500,
+                   useCurrentPhenoTrain = F,
+                   nCyclesToKeepRecords = 2,
+                   selCritPipeAdv = selCritIID,
+                   selCritPopImprov =  selCritIID)
+
+bsp2 <- specifyBSP(schemeDF = NschemeDF,
+                   nTrainPopCycles = 4, nYrsAsCandidates = 3, maxTrainingPopSize = 150,
+                   nChr = 4, effPopSize = 200, quickHaplo = F,
+                   segSites = 165, nQTL = 100, nSNP = 50, genVar = 1500,
+                   gxeVar = NULL, gxyVar = 1500, gxlVar = 750, gxyxlVar = 300,
+                   meanDD = 0.23, varDD = 0.05, relAA = 0.5,
+                   stageToGenotype = "PYT",
+                   nParents = 100, nCrosses = 100, nProgeny = 5, nClonesToNCRP = 3,
+                   phenoF1toStage1 = F, errVarPreStage1 = 17500,
+                   useCurrentPhenoTrain = F,
+                   nCyclesToKeepRecords = 2,
+                   selCritPipeAdv = selCritIID,
+                   selCritPopImprov =  selCritIID)
+```
+
+
+## Include the Marnin functions to parallel the simulation
+
+```{r}
+source(here::here("code","runBurnInSchemes.R"))
+source(here::here("code","runSchemesPostBurnIn.R"))
+```
+
+## Burn in Simulation script
+
+It is not required to run this part of the script, since the results are already save in the file *BurnIn_IITA_PS.rds* at the *output* directory.
+
+```{r, eval = FALSE}
+start <- proc.time()[3]
+burnIn_IITA_PS <- runBurnInSchemes(bsp = bsp1,
+                                   nBurnInCycles=4,
+                                   selCritPop="parentSelCritBLUP",
+                                   selCritPipe="productSelCritBLUP",
+                                   iniFunc="initializeScheme",
+                                   productFunc="productPipeline",
+                                   popImprovFunc="popImprovByParentSel",
+                                   nReplications = 8, nSimCores = 4,
+                                   nBLASthreads = 1)
+end <- proc.time()[3]; print(paste0(floor((end - start)/60), "mins ",
+                                    floor(((end - start)%%60)), "s elapsed - bsp1"))
+#saveRDS(burnIn_IITA_PS,file = here::here("output","BurnIn_IITA_PS.rds"))
+rm(start); rm(end)
+```
+
+
+## Post BurnIn Simulation with the Alternative VDP - Increasing the number of entries per stage
+
+When we try to increase the number of entries per stage at the post burn in simulation, it is resulting at the following error:
+```
+Error: Problem with `mutate()` column `SimOutput`.
+ℹ `SimOutput = future_map2(...)`.
+x Trying to select invalid individuals
+Run `rlang::last_error()` to see where the error occurred.
+```
+
+Here is the code to run the post burn in simulation
+
+```{r, error = TRUE}
+burnIn_IITA_PS <- readRDS(here::here("output", "BurnIn_PS.rds"))
+start <- proc.time()[3]
+postBurnIn_IITA_PS <- runSchemesPostBurnIn(simulations = burnIn_IITA_PS,
+                                           newBSP = bsp2,
+                                           nPostBurnInCycles = 12,
+                                           selCritPop = "parentSelCritBLUP",
+                                           selCritPipe = "productSelCritBLUP",
+                                           productFunc = "productPipelinePostBurnIn",
+                                           popImprovFunc = "popImprovByParentSel",
+                                           nSimCores = 4,
+                                           nBLASthreads = 1)
+end <- proc.time()[3]; print(paste0(floor((end - start)/60), "mins ",
+                                    floor(((end - start)%%60)), "s elapsed - bspP"))
+
+```
+
+Here is the *runSchemesPostBurnIn* function, that is resulting the Bug. Let's keep this function open in a table in RStudio, so I could use the line number as a reference to keep digging.
+
+```{r, eval = FALSE}
+View(runSchemesPostBurnIn)
+```
+
+## Digging the bug
+
+I start by creating the following objects and run the function *runSchemesPostBurnIn* line by line.
+
+```{r}
+burnIn_IITA_PS <- readRDS(here::here("output", "BurnIn_PS.rds"))
+
+simulations = burnIn_IITA_PS
+newBSP = bsp2
+nPostBurnInCycles = 12
+selCritPop = "parentSelCritBLUP"
+selCritPipe = "productSelCritBLUP"
+productFunc = "productPipelinePostBurnIn"
+popImprovFunc = "popImprovByParentSel"
+nSimCores = 4
+nBLASthreads = 1
+
+require(furrr); plan(multisession, workers = nSimCores)
+options(future.globals.maxSize=+Inf); options(future.rng.onMisuse="ignore")
+```
+
+at the line 37 and 38 of the *runSchemesPostBurnIn* function the function future_map2 is applyed to separate the scenarios by each repetition and run in parallel based on the number of cores informed in the function *plan* by the *workers* argument at line 34 of the *runSchemesPostBurnIn* function.
+
+To keep digging I created the following objects:
+
+```{r}
+
+SimRep <- 1
+burnInSim <- simulations$burnInSim[[SimRep]]
+
+```
+
+Then I proceed to the lines 41 to 66 of the *runSchemesPostBurnIn* function without any issue.
+
+```{r}
+
+      if(!is.null(nBLASthreads)) { RhpcBLASctl::blas_set_num_threads(nBLASthreads) }
+      cat("******", SimRep, "\n")
+
+      # This CONTINUES where previous sims left off
+      ## no initialize step
+      ## Keep burn-in stage sim params "SP"
+      SP<-burnInSim$SP
+      ## specify a potentially new bsp object
+      ## (keep checks stored in burn-in stage's bsp)
+      if(!is.null(newBSP)){
+        bsp<-newBSP; bsp$checks<-burnInSim$bsp$checks
+        bsp[["burnInBSP"]]<-burnInSim$bsp
+        # years are indexed starting at year==0,
+        ## so for 10 burn-in cycles, max value should be 9, store for later
+        bsp[["maxYearBurnInStage"]]<-max(burnInSim$records$stageOutputs$year)
+      } else { bsp<-burnInSim$bsp }
+      ## 'historical' records from burn-in
+      records<-burnInSim$records
+      ## override burn-in specified product and population improvement funcs
+      bsp[["productPipeline"]] <- get(productFunc)
+      bsp[["populationImprovement"]] <- get(popImprovFunc)
+      bsp[["selCritPipeAdv"]] <- get(selCritPipe)
+      bsp[["selCritPopImprov"]] <- get(selCritPop)
+
+      # Post burn-in cycles
+      cat("\n"); cat("Post burn-in cycles"); cat("\n")
+```
+
+Then we arrive at the loop that is related to the bug (lines 67 to 71), more precisely at the *bsp$productPipeline* function, which is named as *productPipelinePostBurnIn*.
+
+```{r, error = TRUE}
+      for (cycle in 1:nPostBurnInCycles){
+        cat(cycle, " ")
+        records <- bsp$productPipeline(records, bsp, SP)
+        records <- bsp$populationImprovement(records, bsp, SP)
+      }
+      
+```
+
+The *productPipelinePostBurnIn* could be viewed here.
+
+```{r, eval = FALSE}
+source(here::here("code", "newProductPipeline.R"))
+source(here::here("code", "ProductPipeline.R"))
+
+View(productPipelinePostBurnIn)
+```
+
+Then I proceed running line by line the function *productPipelinePostBurnIn*, starting with the line 28 until line 41.
+
+```{r}
+source(here::here("code", "ProductPipeline.R"))
+# Calculate the selection criterion. selCritPipeAdv has to be given in bsp
+  candidates <- records$F1@id
+  selCrit <- bsp$selCritPipeAdv(records, candidates, bsp, SP)
+
+  # Make summary for the incoming F1s
+  year <- max(records$stageOutputs$year)+1 # Add a year relative to last year
+  nF1 <- bsp$nCrosses * bsp$nProgeny
+  nGenoRec <- nInd(records$F1)
+  # Analyze the most-recent F1s
+  newF1Idx <- nGenoRec - nF1 + 1:nF1
+  id <- records$F1[newF1Idx]@id
+  records$stageOutputs <- records$stageOutputs %>%
+      dplyr::bind_rows(stageOutputs(id=id, f1=records$F1, selCrit=selCrit, stage=0, year=year, bsp=bsp))
+  # Will be added to the phenotype records
+  toAdd <- list()
+```
+
+Then to keep moving forward to the loop in line 42, I created the following object with the first Stage name and jump to line 43. I did the loop by my self.
+
+##### PYT Stage
+
+```{r, error = TRUE}
+stage <- bsp$stageNames[1]
+stage
+
+ # Make a summary for this stage
+    id <- last(records[[stage]])$id[1:bsp$nEntries[stage]]
+    records$stageOutputs<-records$stageOutputs %>%
+      dplyr::bind_rows(stageOutputs(id=id, f1=records$F1, selCrit=selCrit,
+                                            stage=which(bsp$stageNames==stage),
+                                            year=year, bsp=bsp))
+```
+
+Here I found the first bug, on line 45. Line 45 was wrote to remove the checks from the *id* vector. I did not realize that, because I tough that the issue the ***NAs*** when I was trying to run with the new number of entries per stage.
+
+old code
+```
+id <- last(records[[stage]])$id[1:bsp$nEntries[stage]]
+```
+new code to remove the check from the *id* vector of each stage
+```
+id <- last(records[[stage]])$id %>% .[!. %in% bsp$checks@id]
+```
+
+Then I keep going the looping with the new code
+
+
+```{r}
+stage <- bsp$stageNames[1]
+stage
+
+ # Make a summary for this stage
+    id <- last(records[[stage]])$id %>% .[!. %in% bsp$checks@id]
+    records$stageOutputs<-records$stageOutputs %>%
+      dplyr::bind_rows(stageOutputs(id=id, f1=records$F1, selCrit=selCrit,
+                                            stage=which(bsp$stageNames==stage),
+                                            year=year, bsp=bsp))
+
+if(which(bsp$stageNames==stage) == 1){
+      # Stage 1 different: no phenotypes but full Pop-class
+      # Use phenotypes to select the F1 going into Stage 1?
+      if(bsp$phenoF1toStage1){ # Use phenotypes to choose what goes to Stage 1
+        phenoF1 <- setPheno(records$F1[newF1Idx], varE=bsp$errVarPreStage1, onlyPheno=T, simParam=SP)
+        indToAdv <- records$F1@id[nGenoRec - nF1 + (phenoF1 %>% order(decreasing=T))[1:bsp$nEntries[stage]] %>% sort]
+      } else {
+        # Do the F1 have genotypic values that could be used?
+        if(selCrit[newF1Idx] %>% is.na %>% all){ # Choose at random
+          indToAdv <- records$F1@id[nGenoRec - nF1 + sort(sample(nF1, bsp$nEntries[stage]))]
+        } else { # Use selCrit
+          indToAdv <- records$F1@id[nGenoRec - nF1 + (selCrit[newF1Idx] %>%
+                                                        order(decreasing=T))[1:bsp$nEntries[stage]] %>% sort]
+        }
+      }
+    } else { # Beyond stage 1
+      # Don't allow checks to be advanced: use 1:bsp$nEntries[stage-1]
+      id <- last(records[[stage]])$id %>% .[!. %in% bsp$checks@id]
+      selCritToAdv <- selCrit[id]
+      indToAdv<-selCritToAdv %>% sort(.,decreasing = T) %>% .[1:bsp$nEntries[stage]] %>% names
+    }
+
+    entries <- records$F1[indToAdv]
+    varE <- bsp$gxyVar + (bsp$gxlVar + bsp$gxyxlVar + bsp$errVars[stage] / bsp$nReps[stage]) / bsp$nLocs[stage]
+    # reps=1 because varE is computed above
+    entries <- setPheno(entries, varE=varE, reps=1, simParam=SP)
+    phenoRec <- phenoRecFromPop(entries, bsp, stage)
+    # If provided, add checks to the population
+    if(!is.null(bsp$checks) & bsp$nChks[stage] > 0){
+      varE <- bsp$gxyVar + (bsp$gxlVar + bsp$gxyxlVar + bsp$errVars[stage] / bsp$chkReps[stage]) / bsp$nLocs[stage]
+      chkPheno <- setPheno(bsp$checks[1:bsp$nChks[stage]], varE=varE, reps=1, simParam=SP)
+      chkRec <- phenoRecFromPop(chkPheno, bsp, stage, checks=T)
+      phenoRec <- dplyr::bind_rows(phenoRec, chkRec)
+    }
+    toAdd <- c(toAdd, list(phenoRec))
+
+```
+
+
+##### AYT Stage
+
+```{r}
+stage <- bsp$stageNames[2]
+stage
+
+ # Make a summary for this stage
+    id <- last(records[[stage]])$id %>% .[!. %in% bsp$checks@id]
+    records$stageOutputs<-records$stageOutputs %>%
+      dplyr::bind_rows(stageOutputs(id=id, f1=records$F1, selCrit=selCrit,
+                                            stage=which(bsp$stageNames==stage),
+                                            year=year, bsp=bsp))
+    
+if(which(bsp$stageNames==stage) == 1){
+      # Stage 1 different: no phenotypes but full Pop-class
+      # Use phenotypes to select the F1 going into Stage 1?
+      if(bsp$phenoF1toStage1){ # Use phenotypes to choose what goes to Stage 1
+        phenoF1 <- setPheno(records$F1[newF1Idx], varE=bsp$errVarPreStage1, onlyPheno=T, simParam=SP)
+        indToAdv <- records$F1@id[nGenoRec - nF1 + (phenoF1 %>% order(decreasing=T))[1:bsp$nEntries[stage]] %>% sort]
+      } else {
+        # Do the F1 have genotypic values that could be used?
+        if(selCrit[newF1Idx] %>% is.na %>% all){ # Choose at random
+          indToAdv <- records$F1@id[nGenoRec - nF1 + sort(sample(nF1, bsp$nEntries[stage]))]
+        } else { # Use selCrit
+          indToAdv <- records$F1@id[nGenoRec - nF1 + (selCrit[newF1Idx] %>%
+                                                        order(decreasing=T))[1:bsp$nEntries[stage]] %>% sort]
+        }
+      }
+    } else { # Beyond stage 1
+      # Don't allow checks to be advanced: use 1:bsp$nEntries[stage-1]
+      id <- last(records[[stage]])$id %>% .[!. %in% bsp$checks@id]
+      selCritToAdv <- selCrit[id]
+      indToAdv<-selCritToAdv %>% sort(.,decreasing = T) %>% .[1:bsp$nEntries[stage]] %>% names
+    }
+```
+
+Then I find another bug at the line 66 of the function *productPipelinePostBurnIn*. That was selecting clones for the next cycle but using the clones from the same stage.
+
+Old code
+```
+      id <- last(records[[stage]]])$id %>% .[!. %in% bsp$checks@id]
+```
+New code to 
+```
+      id <- last(records[[*bsp$stageNames[which(bsp$stageNames==stage) -1]*]]])$id %>% .[!. %in% bsp$checks@id]
+```
+##### AYT Stage
+
+```{r}
+stage <- bsp$stageNames[2]
+stage
+
+ # Make a summary for this stage
+    id <- last(records[[stage]])$id %>% .[!. %in% bsp$checks@id]
+    records$stageOutputs<-records$stageOutputs %>%
+      dplyr::bind_rows(stageOutputs(id=id, f1=records$F1, selCrit=selCrit,
+                                            stage=which(bsp$stageNames==stage),
+                                            year=year, bsp=bsp))
+    
+if(which(bsp$stageNames==stage) == 1){
+      # Stage 1 different: no phenotypes but full Pop-class
+      # Use phenotypes to select the F1 going into Stage 1?
+      if(bsp$phenoF1toStage1){ # Use phenotypes to choose what goes to Stage 1
+        phenoF1 <- setPheno(records$F1[newF1Idx], varE=bsp$errVarPreStage1, onlyPheno=T, simParam=SP)
+        indToAdv <- records$F1@id[nGenoRec - nF1 + (phenoF1 %>% order(decreasing=T))[1:bsp$nEntries[stage]] %>% sort]
+      } else {
+        # Do the F1 have genotypic values that could be used?
+        if(selCrit[newF1Idx] %>% is.na %>% all){ # Choose at random
+          indToAdv <- records$F1@id[nGenoRec - nF1 + sort(sample(nF1, bsp$nEntries[stage]))]
+        } else { # Use selCrit
+          indToAdv <- records$F1@id[nGenoRec - nF1 + (selCrit[newF1Idx] %>%
+                                                        order(decreasing=T))[1:bsp$nEntries[stage]] %>% sort]
+        }
+      }
+    } else { # Beyond stage 1
+      # Don't allow checks to be advanced: use 1:bsp$nEntries[stage-1]
+      id <- last(records[[bsp$stageNames[which(bsp$stageNames==stage) -1]]])$id %>% .[!. %in% bsp$checks@id]
+      selCritToAdv <- selCrit[id]
+      indToAdv<-selCritToAdv %>% sort(.,decreasing = T) %>% .[1:bsp$nEntries[stage]] %>% names
+    }
+
+    entries <- records$F1[indToAdv]
+    varE <- bsp$gxyVar + (bsp$gxlVar + bsp$gxyxlVar + bsp$errVars[stage] / bsp$nReps[stage]) / bsp$nLocs[stage]
+    # reps=1 because varE is computed above
+    entries <- setPheno(entries, varE=varE, reps=1, simParam=SP)
+    phenoRec <- phenoRecFromPop(entries, bsp, stage)
+    # If provided, add checks to the population
+    if(!is.null(bsp$checks) & bsp$nChks[stage] > 0){
+      varE <- bsp$gxyVar + (bsp$gxlVar + bsp$gxyxlVar + bsp$errVars[stage] / bsp$chkReps[stage]) / bsp$nLocs[stage]
+      chkPheno <- setPheno(bsp$checks[1:bsp$nChks[stage]], varE=varE, reps=1, simParam=SP)
+      chkRec <- phenoRecFromPop(chkPheno, bsp, stage, checks=T)
+      phenoRec <- dplyr::bind_rows(phenoRec, chkRec)
+    }
+    toAdd <- c(toAdd, list(phenoRec))
+
+```
+##### UYT Stage
+
+```{r}
+stage <- bsp$stageNames[3]
+stage
+
+ # Make a summary for this stage
+    id <- last(records[[stage]])$id %>% .[!. %in% bsp$checks@id]
+    records$stageOutputs<-records$stageOutputs %>%
+      dplyr::bind_rows(stageOutputs(id=id, f1=records$F1, selCrit=selCrit,
+                                            stage=which(bsp$stageNames==stage),
+                                            year=year, bsp=bsp))
+    
+if(which(bsp$stageNames==stage) == 1){
+      # Stage 1 different: no phenotypes but full Pop-class
+      # Use phenotypes to select the F1 going into Stage 1?
+      if(bsp$phenoF1toStage1){ # Use phenotypes to choose what goes to Stage 1
+        phenoF1 <- setPheno(records$F1[newF1Idx], varE=bsp$errVarPreStage1, onlyPheno=T, simParam=SP)
+        indToAdv <- records$F1@id[nGenoRec - nF1 + (phenoF1 %>% order(decreasing=T))[1:bsp$nEntries[stage]] %>% sort]
+      } else {
+        # Do the F1 have genotypic values that could be used?
+        if(selCrit[newF1Idx] %>% is.na %>% all){ # Choose at random
+          indToAdv <- records$F1@id[nGenoRec - nF1 + sort(sample(nF1, bsp$nEntries[stage]))]
+        } else { # Use selCrit
+          indToAdv <- records$F1@id[nGenoRec - nF1 + (selCrit[newF1Idx] %>%
+                                                        order(decreasing=T))[1:bsp$nEntries[stage]] %>% sort]
+        }
+      }
+    } else { # Beyond stage 1
+      # Don't allow checks to be advanced: use 1:bsp$nEntries[stage-1]
+      id <- last(records[[bsp$stageNames[which(bsp$stageNames==stage) -1]]])$id %>% .[!. %in% bsp$checks@id]
+      selCritToAdv <- selCrit[id]
+      indToAdv<-selCritToAdv %>% sort(.,decreasing = T) %>% .[1:bsp$nEntries[stage]] %>% names
+    }
+
+    entries <- records$F1[indToAdv]
+    varE <- bsp$gxyVar + (bsp$gxlVar + bsp$gxyxlVar + bsp$errVars[stage] / bsp$nReps[stage]) / bsp$nLocs[stage]
+    # reps=1 because varE is computed above
+    entries <- setPheno(entries, varE=varE, reps=1, simParam=SP)
+    phenoRec <- phenoRecFromPop(entries, bsp, stage)
+    # If provided, add checks to the population
+    if(!is.null(bsp$checks) & bsp$nChks[stage] > 0){
+      varE <- bsp$gxyVar + (bsp$gxlVar + bsp$gxyxlVar + bsp$errVars[stage] / bsp$chkReps[stage]) / bsp$nLocs[stage]
+      chkPheno <- setPheno(bsp$checks[1:bsp$nChks[stage]], varE=varE, reps=1, simParam=SP)
+      chkRec <- phenoRecFromPop(chkPheno, bsp, stage, checks=T)
+      phenoRec <- dplyr::bind_rows(phenoRec, chkRec)
+    }
+    toAdd <- c(toAdd, list(phenoRec))
+
+```
+
+Finishing the *productPipelinePostBurnIn* function
+
+```{r}
+  for(stage in bsp$stageNames){
+    records[[stage]] <- c(records[[stage]], toAdd[which(bsp$stageNames==stage)])
+  }
+
+  # Remove old records if needed
+  if (length(records[[2]]) > bsp$nCyclesToKeepRecords) records <- removeOldestCyc(records, bsp)
+```
+
+Running the code of improvement population, which select the progenitor, and make the crosses
+
+```{r}
+records <- bsp$populationImprovement(records, bsp, SP)
+```
+
+Then I runned all over again for more three times as a loop, from **line 251** of this RmarkDown file.
+
+Finishing the *runSchemePostBurnIn* function for one replicate.
+
+```{r}
+      # Finalize the stageOutputs
+      records <- AlphaSimHlpR:::lastCycStgOut(records, bsp, SP)
+
+      postBurnIn_IITA_PS <- list(list(records=records,
+                                      bsp=bsp,
+                                      SP=SP))
+```
+
+## Examples running the new code
+Here is new [examples](SimulationExamples.html)

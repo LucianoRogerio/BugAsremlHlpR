@@ -1,0 +1,202 @@
+---
+title: "SimulationExamples"
+author: "LucianoRogerio"
+date: "2022-01-10"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+## Pkgs
+
+```{r}
+
+library(devtools)
+#install_github("LucianoRogerio/AlphaSimHlpR", force = T, ref = "MarninPkg")
+
+suppressMessages(library(AlphaSimHlpR))
+suppressMessages(library(tidyverse))
+library(dplyr); library(furrr); library(here)
+select <- dplyr::select
+mutate <- dplyr::mutate
+```
+
+
+## Simulation parameters
+
+```{r}
+schemeDF <- read.csv(here::here("data","baselineScheme - Test.csv"),
+                     header = T, stringsAsFactors = F, sep = ";")
+NschemeDF <- read.csv(here::here("data","baselineScheme - Test2.csv"),
+                     header = T, stringsAsFactors = F, sep = ";")
+bsp1 <- specifyBSP(schemeDF = schemeDF,
+                   nTrainPopCycles = 4, nYrsAsCandidates = 3, maxTrainingPopSize = 150,
+                   nChr = 4, effPopSize = 200, quickHaplo = F,
+                   segSites = 165, nQTL = 100, nSNP = 50, genVar = 1500,
+                   gxeVar = NULL, gxyVar = 1500, gxlVar = 750, gxyxlVar = 300,
+                   meanDD = 0.23, varDD = 0.05, relAA = 0.5,
+                   stageToGenotype = "PYT",
+                   nParents = 100, nCrosses = 100, nProgeny = 5, nClonesToNCRP = 3,
+                   phenoF1toStage1 = F, errVarPreStage1 = 17500,
+                   useCurrentPhenoTrain = F,
+                   nCyclesToKeepRecords = 2,
+                   selCritPipeAdv = selCritIID,
+                   selCritPopImprov =  selCritIID)
+bsp2 <- specifyBSP(schemeDF = NschemeDF,
+                   nTrainPopCycles = 4, nYrsAsCandidates = 3, maxTrainingPopSize = 150,
+                   nChr = 4, effPopSize = 200, quickHaplo = F,
+                   segSites = 165, nQTL = 100, nSNP = 50, genVar = 1500,
+                   gxeVar = NULL, gxyVar = 1500, gxlVar = 750, gxyxlVar = 300,
+                   meanDD = 0.23, varDD = 0.05, relAA = 0.5,
+                   stageToGenotype = "PYT",
+                   nParents = 100, nCrosses = 100, nProgeny = 5, nClonesToNCRP = 3,
+                   phenoF1toStage1 = F, errVarPreStage1 = 17500,
+                   useCurrentPhenoTrain = F,
+                   nCyclesToKeepRecords = 2,
+                   selCritPipeAdv = selCritIID,
+                   selCritPopImprov =  selCritIID)
+```
+
+## Simulate the Burn In phase
+
+```{r, eval = FALSE}
+source(here::here("code","runBurnInSchemes.R"))
+
+start <- proc.time()[3]
+burnIn_PS <- runBurnInSchemes(bsp = bsp1,
+                              nBurnInCycles=4,
+                              selCritPop="parentSelCritBLUP",
+                              selCritPipe="productSelCritBLUP",
+                              iniFunc="initializeScheme",
+                              productFunc="productPipeline",
+                              popImprovFunc="popImprovByParentSel",
+                              nReplications = 8, nSimCores = 4,
+                              nBLASthreads = NULL)
+end <- proc.time()[3]; print(paste0(floor((end - start)/60), "mins ", floor(((end - start)%%60)), "s elapsed"))
+saveRDS(burnIn_PS,file = here::here("output","BurnIn_PS.rds"))
+rm(start); rm(end)
+```
+
+## Post Burn In Phase - Old VDP
+```{r, eval = FALSE}
+source(here::here("code","runSchemesPostBurnIn.R"))
+burnIn_PS <- readRDS(here::here("output", "BurnIn_PS.rds"))
+
+start <- proc.time()[3]
+postBurnIn_PS <- runSchemesPostBurnIn(simulations = burnIn_PS,
+                                      nPostBurnInCycles = 12,
+                                      selCritPop = "parentSelCritBLUP",
+                                      selCritPipe = "productSelCritBLUP",
+                                      productFunc = "productPipelinePostBurnIn",
+                                      popImprovFunc = "popImprovByParentSel",
+                                      nSimCores = 4,
+                                      nBLASthreads = NULL)
+end <- proc.time()[3]; print(paste0(floor((end - start)/60), "mins ", floor(((end - start)%%60)), "s elapsed"))
+saveRDS(postBurnIn_PS,file = here::here("output","postBurnIn_PS.rds"))
+rm(postBurnIn_PS)
+```
+
+##  Post Burn In Phase - New VDP
+```{r, eval = FALSE}
+start <- proc.time()[3]
+postBurnIn_NVDP_PS <- runSchemesPostBurnIn(simulations = burnIn_PS,
+                                           newBSP = bsp2,
+                                           nPostBurnInCycles = 12,
+                                           selCritPop = "parentSelCritBLUP",
+                                           selCritPipe = "productSelCritBLUP",
+                                           productFunc = "productPipelinePostBurnIn",
+                                           popImprovFunc = "popImprovByParentSel",
+                                           nSimCores = 4,
+                                           nBLASthreads = NULL)
+end <- proc.time()[3]; print(paste0(floor((end - start)/60), "mins ", floor(((end - start)%%60)), "s elapsed"))
+saveRDS(postBurnIn_NVDP_PS,file = here::here("output","postBurnIn_NDVP_PS.rds"))
+rm(postBurnIn_NVDP_PS)
+```
+
+##  Post Burn In Phase - Old VDP - GS prediction
+```{r, eval = FALSE}
+start <- proc.time()[3]
+postBurnIn_GS <- runSchemesPostBurnIn(simulations = burnIn_PS,
+                                      nPostBurnInCycles = 12,
+                                      selCritPop="parentSelCritGEBV",
+                                      selCritPipe="productSelCritBLUP",
+                                      productFunc="productPipelinePostBurnIn",
+                                      popImprovFunc="popImprovByParentSel",
+                                      nSimCores = 4,
+                                      nBLASthreads = NULL)
+end <- proc.time()[3]; print(paste0(floor((end - start)/60), "mins ", floor(((end - start)%%60)), "s elapsed"))
+saveRDS(postBurnIn_GS,file = here::here("output","postBurnIn_GS.rds"))
+rm(postBurnIn_GS)
+```
+
+##  Post Burn In Phase - New VDP - GS prediction
+```{r, eval = FALSE}
+start <- proc.time()[3]
+postBurnIn_NVDP_GS <- runSchemesPostBurnIn(simulations = burnIn_PS,
+                                           newBSP = bsp2,
+                                           nPostBurnInCycles = 12,
+                                           selCritPop="parentSelCritGEBV",
+                                           selCritPipe="productSelCritBLUP",
+                                           productFunc="productPipelinePostBurnIn",
+                                           popImprovFunc="popImprovByParentSel",
+                                           nSimCores = 4,
+                                           nBLASthreads = NULL)
+end <- proc.time()[3]; print(paste0(floor((end - start)/60), "mins ", floor(((end - start)%%60)), "s elapsed"))
+saveRDS(postBurnIn_NVDP_GS,file = here::here("output","postBurnIn_NDVP_GS.rds"))
+rm(postBurnIn_NVDP_GS)
+```
+
+## Results Simulations with GS and NVDP scenarios
+
+```{r, eval = FALSE}
+postBurnInPS <- readRDS(here::here("output", "postBurnIn_PS.rds"))
+postBurnInNVDPPS <- readRDS(here::here("output", "postBurnIn_NDVP_PS.rds"))
+postBurnInGS <- readRDS(here::here("output", "postBurnIn_GS.rds"))
+postBurnInNVDPGS <- readRDS(here::here("output", "postBurnIn_NDVP_GS.rds"))
+
+forSimPlot <- postBurnInGS %>% 
+              mutate(PostBurnIn = "GS") %>% 
+              bind_rows(postBurnInPS %>% 
+              mutate(PostBurnIn = "PS")) %>% 
+              bind_rows(postBurnInNVDPPS %>% 
+              mutate(PostBurnIn = "NVDP_PS")) %>% 
+                bind_rows(postBurnInNVDPGS %>% 
+              mutate(PostBurnIn = "NVDP_GS")) %>% 
+              unnest_wider(SimOutput) %>% 
+              select(SimRep, PostBurnIn, records) %>% 
+              unnest_wider(records) %>% 
+              select(SimRep, PostBurnIn, stageOutputs) %>% 
+              unnest(cols = c(stageOutputs)) %>% 
+              filter(stage == "UYT") %>% 
+              mutate(YearPostBurnIn = year - 4)
+
+saveRDS(forSimPlot, here::here("output", "DataSimPlot.rds"))
+```
+
+## Graphs
+
+```{r}
+forSimPlot <- readRDS(here::here("output", "DataSimPlot.rds"))
+
+library(patchwork)
+meanGplot1 <- forSimPlot %>% 
+              group_by(PostBurnIn, YearPostBurnIn, year, stage) %>% 
+#              summarize(meanGenMean = mean(genValMean),
+#              seGenMean = sd(genValMean) / n()) %>% 
+              ggplot(., aes(x = YearPostBurnIn, y = genValMean)) +
+              geom_smooth(method = "loess", alpha = 0.75, mapping = aes(colour = PostBurnIn))# +
+#              geom_ribbon(aes(ymin = meanGenMean - seGenMean, 
+#                              ymax = meanGenMean + seGenMean,
+#                              fill = PostBurnIn), 
+#                          alpha=0.75) + 
+#              geom_line(aes(y = meanGenMean, color=PostBurnIn))
+sdGplot1 <- forSimPlot %>% 
+            group_by(PostBurnIn, YearPostBurnIn, year, stage) %>% 
+#            summarize(meanGenSD = mean(genValSD),
+#                      seGenSD = sd(genValSD) / n()) %>% 
+            ggplot(., aes(x = YearPostBurnIn, y = genValSD)) +
+            geom_smooth(method = "loess", alpha = 0.75, mapping = aes(colour = PostBurnIn))
+
+library(ggpubr)
+ggarrange(meanGplot1, sdGplot1, ncol = 1, common.legend = TRUE)
+```
