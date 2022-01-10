@@ -8,7 +8,7 @@ editor_options:
   chunk_output_type: console
 ---
 
-Welcome to my research website.
+Here is the [Results](SimulationExamples.html) with the new code.
 
 ## Install AlphaSimHlpR from LucianoRogerio github user
 
