@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Home</title>
+
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">BugAsremlHlpR</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Home</h1>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2022-01-10
+</p>
+<p>
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+</p>
+<p>
+<strong>Knit directory:</strong> <code>BugAsremlHlpR/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
+</p>
+<p>
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a> analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version 1.7.0). The <em>Checks</em> tab describes the reproducibility checks that were applied when the results were created. The <em>Past versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the global environment can affect the analysis in your R Markdown file in unknown ways. For reproduciblity it’s best to always run the code in an empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20220107code"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Seed:</strong> <code>set.seed(20220107)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20220107code" class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20220107)</code> was run prior to running the code in the R Markdown file. Setting a seed ensures that any results that rely on randomness, e.g. subsampling or permutations, are reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Session information:</strong> recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be confident that you successfully produced the results during this run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongrelative"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>File paths:</strong> relative </a>
+</p>
+</div>
+<div id="strongFilepathsstrongrelative" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Using relative paths to the files within your workflowr project makes it easier to run your code on other machines.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomLucianoRogerioBugAsremlHlpRtreeefb8051ab470c1030fa5d52b48aa6cf69695931btargetblankefb8051a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/LucianoRogerio/BugAsremlHlpR/tree/efb8051ab470c1030fa5d52b48aa6cf69695931b" target="_blank">efb8051</a> </a>
+</p>
+</div>
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomLucianoRogerioBugAsremlHlpRtreeefb8051ab470c1030fa5d52b48aa6cf69695931btargetblankefb8051a" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version <a href="https://github.com/LucianoRogerio/BugAsremlHlpR/tree/efb8051ab470c1030fa5d52b48aa6cf69695931b" target="_blank">efb8051</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
+</p>
+<pre><code>
+Ignored files:
+    Ignored:    .DS_Store
+    Ignored:    .Rhistory
+    Ignored:    .Rproj.user/
+    Ignored:    code/.DS_Store
+    Ignored:    output/.DS_Store
+
+Untracked files:
+    Untracked:  code/ProductPipeline.R
+    Untracked:  code/newProductPipeline.R
+    Untracked:  code/runBurnInSchemes.R
+    Untracked:  code/runSchemesPostBurnIn.R
+    Untracked:  data/baselineScheme - Test.csv
+    Untracked:  data/baselineScheme - Test2.csv
+    Untracked:  output/BurnIn_PS.rds
+    Untracked:  output/DataSimPlot.rds
+    Untracked:  output/postBurnIn_GS.rds
+    Untracked:  output/postBurnIn_NDVP_GS.rds
+    Untracked:  output/postBurnIn_NDVP_PS.rds
+    Untracked:  output/postBurnIn_PS.rds
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+
+<p>
+These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/index.Rmd</code>) and HTML (<code>docs/index.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
+</p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/LucianoRogerio/BugAsremlHlpR/blob/efb8051ab470c1030fa5d52b48aa6cf69695931b/analysis/index.Rmd" target="_blank">efb8051</a>
+</td>
+<td>
+LucianoRogerio
+</td>
+<td>
+2022-01-10
+</td>
+<td>
+wflow_publish(files = c("analysis/index.Rmd", "analysis/SimulationExamples.Rmd"))
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/LucianoRogerio/BugAsremlHlpR/blob/4d626b11f63127f7abeece3a67b9f2e4ab573df9/analysis/index.Rmd" target="_blank">4d626b1</a>
+</td>
+<td>
+LucianoRogerio
+</td>
+<td>
+2022-01-07
+</td>
+<td>
+Start workflowr project.
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<p>Welcome to my research website.</p>
+<div id="install-alphasimhlpr-from-lucianorogerio-github-user" class="section level2">
+<h2>Install AlphaSimHlpR from LucianoRogerio github user</h2>
+<pre class="r"><code>library(devtools)
+install_github(&quot;LucianoRogerio/AlphaSimHlpR&quot;, force = T, ref = &quot;MarninPkg&quot;)</code></pre>
+</div>
+<div id="call-all-the-packages-required" class="section level2">
+<h2>Call all the packages required</h2>
+<p>Change the working directory to the zip paste decompressed.</p>
+<pre class="r"><code>suppressMessages(library(AlphaSimHlpR))
+suppressMessages(library(tidyverse))
+library(dplyr); library(furrr); library(here)</code></pre>
+<pre><code>Loading required package: future</code></pre>
+<pre><code>here() starts at /Users/lbd54/Documents/GitHub/BugAsremlHlpR</code></pre>
+<pre class="r"><code>select &lt;- dplyr::select
+mutate &lt;- dplyr::mutate</code></pre>
+</div>
+<div id="run-the-simulations-parameters" class="section level2">
+<h2>Run the simulations parameters</h2>
+<pre class="r"><code>library(here)
+### Small VDP scheme
+schemeDF &lt;- read.csv(here::here(&quot;data&quot;,&quot;baselineScheme - Test.csv&quot;),
+                     header = T, stringsAsFactors = F, sep = &quot;;&quot;)
+schemeDF</code></pre>
+<pre><code>  stageNames nEntries nLocs nReps nChks entryToChkRatio trainingPopCycles
+1        PYT      200     1     1     2              20                15
+2        AYT      100     1     1     2              20                15
+3        UYT       20     1     2     2              20                15
+  errVars PlantsPerPlot
+1     100            10
+2      50            25
+3      25            42</code></pre>
+<pre class="r"><code># Small alternative VDP scheme, number of entries were increased per stage
+NschemeDF &lt;- read.csv(here::here(&quot;data&quot;,&quot;baselineScheme - Test2.csv&quot;),
+                     header = T, stringsAsFactors = F, sep = &quot;;&quot;)
+NschemeDF</code></pre>
+<pre><code>  stageNames nEntries nLocs nReps nChks entryToChkRatio trainingPopCycles
+1        PYT      250     1     1     2              20                15
+2        AYT      150     1     1     2              20                15
+3        UYT       50     1     2     2              20                15
+  errVars PlantsPerPlot
+1     100            10
+2      50            25
+3      25            42</code></pre>
+<pre class="r"><code>bsp1 &lt;- specifyBSP(schemeDF = schemeDF,
+                   nTrainPopCycles = 4, nYrsAsCandidates = 3, maxTrainingPopSize = 150,
+                   nChr = 4, effPopSize = 200, quickHaplo = F,
+                   segSites = 165, nQTL = 100, nSNP = 50, genVar = 1500,
+                   gxeVar = NULL, gxyVar = 1500, gxlVar = 750, gxyxlVar = 300,
+                   meanDD = 0.23, varDD = 0.05, relAA = 0.5,
+                   stageToGenotype = &quot;PYT&quot;,
+                   nParents = 100, nCrosses = 100, nProgeny = 5, nClonesToNCRP = 3,
+                   phenoF1toStage1 = F, errVarPreStage1 = 17500,
+                   useCurrentPhenoTrain = F,
+                   nCyclesToKeepRecords = 2,
+                   selCritPipeAdv = selCritIID,
+                   selCritPopImprov =  selCritIID)
+
+bsp2 &lt;- specifyBSP(schemeDF = NschemeDF,
+                   nTrainPopCycles = 4, nYrsAsCandidates = 3, maxTrainingPopSize = 150,
+                   nChr = 4, effPopSize = 200, quickHaplo = F,
+                   segSites = 165, nQTL = 100, nSNP = 50, genVar = 1500,
+                   gxeVar = NULL, gxyVar = 1500, gxlVar = 750, gxyxlVar = 300,
+                   meanDD = 0.23, varDD = 0.05, relAA = 0.5,
+                   stageToGenotype = &quot;PYT&quot;,
+                   nParents = 100, nCrosses = 100, nProgeny = 5, nClonesToNCRP = 3,
+                   phenoF1toStage1 = F, errVarPreStage1 = 17500,
+                   useCurrentPhenoTrain = F,
+                   nCyclesToKeepRecords = 2,
+                   selCritPipeAdv = selCritIID,
+                   selCritPopImprov =  selCritIID)</code></pre>
+</div>
+<div id="include-the-marnin-functions-to-parallel-the-simulation" class="section level2">
+<h2>Include the Marnin functions to parallel the simulation</h2>
+<pre class="r"><code>source(here::here(&quot;code&quot;,&quot;runBurnInSchemes.R&quot;))
+source(here::here(&quot;code&quot;,&quot;runSchemesPostBurnIn.R&quot;))</code></pre>
+</div>
+<div id="burn-in-simulation-script" class="section level2">
+<h2>Burn in Simulation script</h2>
+<p>It is not required to run this part of the script, since the results are already save in the file <em>BurnIn_IITA_PS.rds</em> at the <em>output</em> directory.</p>
+<pre class="r"><code>start &lt;- proc.time()[3]
+burnIn_IITA_PS &lt;- runBurnInSchemes(bsp = bsp1,
+                                   nBurnInCycles=4,
+                                   selCritPop=&quot;parentSelCritBLUP&quot;,
+                                   selCritPipe=&quot;productSelCritBLUP&quot;,
+                                   iniFunc=&quot;initializeScheme&quot;,
+                                   productFunc=&quot;productPipeline&quot;,
+                                   popImprovFunc=&quot;popImprovByParentSel&quot;,
+                                   nReplications = 8, nSimCores = 4,
+                                   nBLASthreads = 1)
+end &lt;- proc.time()[3]; print(paste0(floor((end - start)/60), &quot;mins &quot;,
+                                    floor(((end - start)%%60)), &quot;s elapsed - bsp1&quot;))
+#saveRDS(burnIn_IITA_PS,file = here::here(&quot;output&quot;,&quot;BurnIn_IITA_PS.rds&quot;))
+rm(start); rm(end)</code></pre>
+</div>
+<div id="post-burnin-simulation-with-the-alternative-vdp---increasing-the-number-of-entries-per-stage" class="section level2">
+<h2>Post BurnIn Simulation with the Alternative VDP - Increasing the number of entries per stage</h2>
+<p>When we try to increase the number of entries per stage at the post burn in simulation, it is resulting at the following error:</p>
+<pre><code>Error: Problem with `mutate()` column `SimOutput`.
+ℹ `SimOutput = future_map2(...)`.
+x Trying to select invalid individuals
+Run `rlang::last_error()` to see where the error occurred.</code></pre>
+<p>Here is the code to run the post burn in simulation</p>
+<pre class="r"><code>burnIn_IITA_PS &lt;- readRDS(here::here(&quot;output&quot;, &quot;BurnIn_PS.rds&quot;))
+start &lt;- proc.time()[3]
+postBurnIn_IITA_PS &lt;- runSchemesPostBurnIn(simulations = burnIn_IITA_PS,
+                                           newBSP = bsp2,
+                                           nPostBurnInCycles = 12,
+                                           selCritPop = &quot;parentSelCritBLUP&quot;,
+                                           selCritPipe = &quot;productSelCritBLUP&quot;,
+                                           productFunc = &quot;productPipelinePostBurnIn&quot;,
+                                           popImprovFunc = &quot;popImprovByParentSel&quot;,
+                                           nSimCores = 4,
+                                           nBLASthreads = 1)</code></pre>
+<pre><code>****** 1 
+
+Post burn-in cycles
+1  2  3  4  5  6  7  8  9  10  11  12  ****** 2 
+
+Post burn-in cycles
+1  2  3  4  5  6  7  8  9  10  11  12  </code></pre>
+<pre><code>Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs</code></pre>
+<pre><code>****** 3 
+
+Post burn-in cycles
+1  2  3  4  5  6  7  8  9  10  11  12  ****** 4 
+
+Post burn-in cycles
+1  2  3  4  5  6  7  8  9  10  11  12  </code></pre>
+<pre><code>Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs</code></pre>
+<pre><code>****** 5 
+
+Post burn-in cycles
+1  2  3  4  5  6  7  8  9  10  11  12  ****** 6 
+
+Post burn-in cycles
+1  2  3  4  5  6  7  8  9  10  11  12  </code></pre>
+<pre><code>Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs</code></pre>
+<pre><code>****** 7 
+
+Post burn-in cycles
+1  2  3  4  5  6  7  8  9  10  11  12  ****** 8 
+
+Post burn-in cycles
+1  2  3  4  5  6  7  8  9  10  11  12  </code></pre>
+<pre><code>Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs
+
+Warning: Outer names are only allowed for unnamed scalar atomic inputs</code></pre>
+<pre class="r"><code>end &lt;- proc.time()[3]; print(paste0(floor((end - start)/60), &quot;mins &quot;,
+                                    floor(((end - start)%%60)), &quot;s elapsed - bspP&quot;))</code></pre>
+<pre><code>[1] &quot;0mins 5s elapsed - bspP&quot;</code></pre>
+<p>Here is the <em>runSchemesPostBurnIn</em> function, that is resulting the Bug. Let’s keep this function open in a table in RStudio, so I could use the line number as a reference to keep digging.</p>
+<pre class="r"><code>View(runSchemesPostBurnIn)</code></pre>
+</div>
+<div id="digging-the-bug" class="section level2">
+<h2>Digging the bug</h2>
+<p>I start by creating the following objects and run the function <em>runSchemesPostBurnIn</em> line by line.</p>
+<pre class="r"><code>burnIn_IITA_PS &lt;- readRDS(here::here(&quot;output&quot;, &quot;BurnIn_PS.rds&quot;))
+
+simulations = burnIn_IITA_PS
+newBSP = bsp2
+nPostBurnInCycles = 12
+selCritPop = &quot;parentSelCritBLUP&quot;
+selCritPipe = &quot;productSelCritBLUP&quot;
+productFunc = &quot;productPipelinePostBurnIn&quot;
+popImprovFunc = &quot;popImprovByParentSel&quot;
+nSimCores = 4
+nBLASthreads = 1
+
+require(furrr); plan(multisession, workers = nSimCores)
+options(future.globals.maxSize=+Inf); options(future.rng.onMisuse=&quot;ignore&quot;)</code></pre>
+<p>at the line 37 and 38 of the <em>runSchemesPostBurnIn</em> function the function future_map2 is applyed to separate the scenarios by each repetition and run in parallel based on the number of cores informed in the function <em>plan</em> by the <em>workers</em> argument at line 34 of the <em>runSchemesPostBurnIn</em> function.</p>
+<p>To keep digging I created the following objects:</p>
+<pre class="r"><code>SimRep &lt;- 1
+burnInSim &lt;- simulations$burnInSim[[SimRep]]</code></pre>
+<p>Then I proceed to the lines 41 to 66 of the <em>runSchemesPostBurnIn</em> function without any issue.</p>
+<pre class="r"><code>      if(!is.null(nBLASthreads)) { RhpcBLASctl::blas_set_num_threads(nBLASthreads) }
+      cat(&quot;******&quot;, SimRep, &quot;\n&quot;)</code></pre>
+<pre><code>****** 1 </code></pre>
+<pre class="r"><code>      # This CONTINUES where previous sims left off
+      ## no initialize step
+      ## Keep burn-in stage sim params &quot;SP&quot;
+      SP&lt;-burnInSim$SP
+      ## specify a potentially new bsp object
+      ## (keep checks stored in burn-in stage&#39;s bsp)
+      if(!is.null(newBSP)){
+        bsp&lt;-newBSP; bsp$checks&lt;-burnInSim$bsp$checks
+        bsp[[&quot;burnInBSP&quot;]]&lt;-burnInSim$bsp
+        # years are indexed starting at year==0,
+        ## so for 10 burn-in cycles, max value should be 9, store for later
+        bsp[[&quot;maxYearBurnInStage&quot;]]&lt;-max(burnInSim$records$stageOutputs$year)
+      } else { bsp&lt;-burnInSim$bsp }
+      ## &#39;historical&#39; records from burn-in
+      records&lt;-burnInSim$records
+      ## override burn-in specified product and population improvement funcs
+      bsp[[&quot;productPipeline&quot;]] &lt;- get(productFunc)
+      bsp[[&quot;populationImprovement&quot;]] &lt;- get(popImprovFunc)
+      bsp[[&quot;selCritPipeAdv&quot;]] &lt;- get(selCritPipe)
+      bsp[[&quot;selCritPopImprov&quot;]] &lt;- get(selCritPop)
+
+      # Post burn-in cycles
+      cat(&quot;\n&quot;); cat(&quot;Post burn-in cycles&quot;); cat(&quot;\n&quot;)</code></pre>
+<pre><code>Post burn-in cycles</code></pre>
+<p>Then we arrive at the loop that is related to the bug (lines 67 to 71), more precisely at the <em>bsp$productPipeline</em> function, which is named as <em>productPipelinePostBurnIn</em>.</p>
+<pre class="r"><code>      for (cycle in 1:nPostBurnInCycles){
+        cat(cycle, &quot; &quot;)
+        records &lt;- bsp$productPipeline(records, bsp, SP)
+        records &lt;- bsp$populationImprovement(records, bsp, SP)
+      }</code></pre>
+<pre><code>1  </code></pre>
+<pre><code>Warning: Outer names are only allowed for unnamed scalar atomic inputs</code></pre>
+<pre><code>2  </code></pre>
+<pre><code>Warning: Outer names are only allowed for unnamed scalar atomic inputs</code></pre>
+<pre><code>3  </code></pre>
+<pre><code>Warning: Outer names are only allowed for unnamed scalar atomic inputs</code></pre>
+<pre><code>4  </code></pre>
+<pre><code>Warning: Outer names are only allowed for unnamed scalar atomic inputs</code></pre>
+<pre><code>5  </code></pre>
+<pre><code>Warning: Outer names are only allowed for unnamed scalar atomic inputs</code></pre>
+<pre><code>6  </code></pre>
+<pre><code>Warning: Outer names are only allowed for unnamed scalar atomic inputs</code></pre>
+<pre><code>7  </code></pre>
+<pre><code>Warning: Outer names are only allowed for unnamed scalar atomic inputs</code></pre>
+<pre><code>8  </code></pre>
+<pre><code>Warning: Outer names are only allowed for unnamed scalar atomic inputs</code></pre>
+<pre><code>9  </code></pre>
+<pre><code>Warning: Outer names are only allowed for unnamed scalar atomic inputs</code></pre>
+<pre><code>10  </code></pre>
+<pre><code>Warning: Outer names are only allowed for unnamed scalar atomic inputs</code></pre>
+<pre><code>11  </code></pre>
+<pre><code>Warning: Outer names are only allowed for unnamed scalar atomic inputs</code></pre>
+<pre><code>12  </code></pre>
+<pre><code>Warning: Outer names are only allowed for unnamed scalar atomic inputs</code></pre>
+<p>The <em>productPipelinePostBurnIn</em> could be viewed here.</p>
+<pre class="r"><code>source(here::here(&quot;code&quot;, &quot;newProductPipeline.R&quot;))
+source(here::here(&quot;code&quot;, &quot;ProductPipeline.R&quot;))
+
+View(productPipelinePostBurnIn)</code></pre>
+<p>Then I proceed running line by line the function <em>productPipelinePostBurnIn</em>, starting with the line 28 until line 41.</p>
+<pre class="r"><code>source(here::here(&quot;code&quot;, &quot;ProductPipeline.R&quot;))
+# Calculate the selection criterion. selCritPipeAdv has to be given in bsp
+  candidates &lt;- records$F1@id
+  selCrit &lt;- bsp$selCritPipeAdv(records, candidates, bsp, SP)
+
+  # Make summary for the incoming F1s
+  year &lt;- max(records$stageOutputs$year)+1 # Add a year relative to last year
+  nF1 &lt;- bsp$nCrosses * bsp$nProgeny
+  nGenoRec &lt;- nInd(records$F1)
+  # Analyze the most-recent F1s
+  newF1Idx &lt;- nGenoRec - nF1 + 1:nF1
+  id &lt;- records$F1[newF1Idx]@id
+  records$stageOutputs &lt;- records$stageOutputs %&gt;%
+      dplyr::bind_rows(stageOutputs(id=id, f1=records$F1, selCrit=selCrit, stage=0, year=year, bsp=bsp))
+  # Will be added to the phenotype records
+  toAdd &lt;- list()</code></pre>
+<p>Then to keep moving forward to the loop in line 42, I created the following object with the first Stage name and jump to line 43. I did the loop by my self.</p>
+<div id="pyt-stage" class="section level5">
+<h5>PYT Stage</h5>
+<pre class="r"><code>stage &lt;- bsp$stageNames[1]
+stage</code></pre>
+<pre><code>[1] &quot;PYT&quot;</code></pre>
+<pre class="r"><code> # Make a summary for this stage
+    id &lt;- last(records[[stage]])$id[1:bsp$nEntries[stage]]
+    records$stageOutputs&lt;-records$stageOutputs %&gt;%
+      dplyr::bind_rows(stageOutputs(id=id, f1=records$F1, selCrit=selCrit,
+                                            stage=which(bsp$stageNames==stage),
+                                            year=year, bsp=bsp))</code></pre>
+<p>Here I found the first bug, on line 45. Line 45 was wrote to remove the checks from the <em>id</em> vector. I did not realize that, because I tough that the issue the <strong><em>NAs</em></strong> when I was trying to run with the new number of entries per stage.</p>
+<p>old code</p>
+<pre><code>id &lt;- last(records[[stage]])$id[1:bsp$nEntries[stage]]</code></pre>
+<p>new code to remove the check from the <em>id</em> vector of each stage</p>
+<pre><code>id &lt;- last(records[[stage]])$id %&gt;% .[!. %in% bsp$checks@id]</code></pre>
+<p>Then I keep going the looping with the new code</p>
+<pre class="r"><code>stage &lt;- bsp$stageNames[1]
+stage</code></pre>
+<pre><code>[1] &quot;PYT&quot;</code></pre>
+<pre class="r"><code> # Make a summary for this stage
+    id &lt;- last(records[[stage]])$id %&gt;% .[!. %in% bsp$checks@id]
+    records$stageOutputs&lt;-records$stageOutputs %&gt;%
+      dplyr::bind_rows(stageOutputs(id=id, f1=records$F1, selCrit=selCrit,
+                                            stage=which(bsp$stageNames==stage),
+                                            year=year, bsp=bsp))
+
+if(which(bsp$stageNames==stage) == 1){
+      # Stage 1 different: no phenotypes but full Pop-class
+      # Use phenotypes to select the F1 going into Stage 1?
+      if(bsp$phenoF1toStage1){ # Use phenotypes to choose what goes to Stage 1
+        phenoF1 &lt;- setPheno(records$F1[newF1Idx], varE=bsp$errVarPreStage1, onlyPheno=T, simParam=SP)
+        indToAdv &lt;- records$F1@id[nGenoRec - nF1 + (phenoF1 %&gt;% order(decreasing=T))[1:bsp$nEntries[stage]] %&gt;% sort]
+      } else {
+        # Do the F1 have genotypic values that could be used?
+        if(selCrit[newF1Idx] %&gt;% is.na %&gt;% all){ # Choose at random
+          indToAdv &lt;- records$F1@id[nGenoRec - nF1 + sort(sample(nF1, bsp$nEntries[stage]))]
+        } else { # Use selCrit
+          indToAdv &lt;- records$F1@id[nGenoRec - nF1 + (selCrit[newF1Idx] %&gt;%
+                                                        order(decreasing=T))[1:bsp$nEntries[stage]] %&gt;% sort]
+        }
+      }
+    } else { # Beyond stage 1
+      # Don&#39;t allow checks to be advanced: use 1:bsp$nEntries[stage-1]
+      id &lt;- last(records[[stage]])$id %&gt;% .[!. %in% bsp$checks@id]
+      selCritToAdv &lt;- selCrit[id]
+      indToAdv&lt;-selCritToAdv %&gt;% sort(.,decreasing = T) %&gt;% .[1:bsp$nEntries[stage]] %&gt;% names
+    }
+
+    entries &lt;- records$F1[indToAdv]
+    varE &lt;- bsp$gxyVar + (bsp$gxlVar + bsp$gxyxlVar + bsp$errVars[stage] / bsp$nReps[stage]) / bsp$nLocs[stage]
+    # reps=1 because varE is computed above
+    entries &lt;- setPheno(entries, varE=varE, reps=1, simParam=SP)
+    phenoRec &lt;- phenoRecFromPop(entries, bsp, stage)
+    # If provided, add checks to the population
+    if(!is.null(bsp$checks) &amp; bsp$nChks[stage] &gt; 0){
+      varE &lt;- bsp$gxyVar + (bsp$gxlVar + bsp$gxyxlVar + bsp$errVars[stage] / bsp$chkReps[stage]) / bsp$nLocs[stage]
+      chkPheno &lt;- setPheno(bsp$checks[1:bsp$nChks[stage]], varE=varE, reps=1, simParam=SP)
+      chkRec &lt;- phenoRecFromPop(chkPheno, bsp, stage, checks=T)
+      phenoRec &lt;- dplyr::bind_rows(phenoRec, chkRec)
+    }
+    toAdd &lt;- c(toAdd, list(phenoRec))</code></pre>
+</div>
+<div id="ayt-stage" class="section level5">
+<h5>AYT Stage</h5>
+<pre class="r"><code>stage &lt;- bsp$stageNames[2]
+stage</code></pre>
+<pre><code>[1] &quot;AYT&quot;</code></pre>
+<pre class="r"><code> # Make a summary for this stage
+    id &lt;- last(records[[stage]])$id %&gt;% .[!. %in% bsp$checks@id]
+    records$stageOutputs&lt;-records$stageOutputs %&gt;%
+      dplyr::bind_rows(stageOutputs(id=id, f1=records$F1, selCrit=selCrit,
+                                            stage=which(bsp$stageNames==stage),
+                                            year=year, bsp=bsp))
+    
+if(which(bsp$stageNames==stage) == 1){
+      # Stage 1 different: no phenotypes but full Pop-class
+      # Use phenotypes to select the F1 going into Stage 1?
+      if(bsp$phenoF1toStage1){ # Use phenotypes to choose what goes to Stage 1
+        phenoF1 &lt;- setPheno(records$F1[newF1Idx], varE=bsp$errVarPreStage1, onlyPheno=T, simParam=SP)
+        indToAdv &lt;- records$F1@id[nGenoRec - nF1 + (phenoF1 %&gt;% order(decreasing=T))[1:bsp$nEntries[stage]] %&gt;% sort]
+      } else {
+        # Do the F1 have genotypic values that could be used?
+        if(selCrit[newF1Idx] %&gt;% is.na %&gt;% all){ # Choose at random
+          indToAdv &lt;- records$F1@id[nGenoRec - nF1 + sort(sample(nF1, bsp$nEntries[stage]))]
+        } else { # Use selCrit
+          indToAdv &lt;- records$F1@id[nGenoRec - nF1 + (selCrit[newF1Idx] %&gt;%
+                                                        order(decreasing=T))[1:bsp$nEntries[stage]] %&gt;% sort]
+        }
+      }
+    } else { # Beyond stage 1
+      # Don&#39;t allow checks to be advanced: use 1:bsp$nEntries[stage-1]
+      id &lt;- last(records[[stage]])$id %&gt;% .[!. %in% bsp$checks@id]
+      selCritToAdv &lt;- selCrit[id]
+      indToAdv&lt;-selCritToAdv %&gt;% sort(.,decreasing = T) %&gt;% .[1:bsp$nEntries[stage]] %&gt;% names
+    }</code></pre>
+<p>Then I find another bug at the line 66 of the function <em>productPipelinePostBurnIn</em>. That was selecting clones for the next cycle but using the clones from the same stage.</p>
+<p>Old code</p>
+<pre><code>      id &lt;- last(records[[stage]]])$id %&gt;% .[!. %in% bsp$checks@id]</code></pre>
+<p>New code to</p>
+<pre><code>      id &lt;- last(records[[*bsp$stageNames[which(bsp$stageNames==stage) -1]*]]])$id %&gt;% .[!. %in% bsp$checks@id]</code></pre>
+</div>
+<div id="ayt-stage-1" class="section level5">
+<h5>AYT Stage</h5>
+<pre class="r"><code>stage &lt;- bsp$stageNames[2]
+stage</code></pre>
+<pre><code>[1] &quot;AYT&quot;</code></pre>
+<pre class="r"><code> # Make a summary for this stage
+    id &lt;- last(records[[stage]])$id %&gt;% .[!. %in% bsp$checks@id]
+    records$stageOutputs&lt;-records$stageOutputs %&gt;%
+      dplyr::bind_rows(stageOutputs(id=id, f1=records$F1, selCrit=selCrit,
+                                            stage=which(bsp$stageNames==stage),
+                                            year=year, bsp=bsp))
+    
+if(which(bsp$stageNames==stage) == 1){
+      # Stage 1 different: no phenotypes but full Pop-class
+      # Use phenotypes to select the F1 going into Stage 1?
+      if(bsp$phenoF1toStage1){ # Use phenotypes to choose what goes to Stage 1
+        phenoF1 &lt;- setPheno(records$F1[newF1Idx], varE=bsp$errVarPreStage1, onlyPheno=T, simParam=SP)
+        indToAdv &lt;- records$F1@id[nGenoRec - nF1 + (phenoF1 %&gt;% order(decreasing=T))[1:bsp$nEntries[stage]] %&gt;% sort]
+      } else {
+        # Do the F1 have genotypic values that could be used?
+        if(selCrit[newF1Idx] %&gt;% is.na %&gt;% all){ # Choose at random
+          indToAdv &lt;- records$F1@id[nGenoRec - nF1 + sort(sample(nF1, bsp$nEntries[stage]))]
+        } else { # Use selCrit
+          indToAdv &lt;- records$F1@id[nGenoRec - nF1 + (selCrit[newF1Idx] %&gt;%
+                                                        order(decreasing=T))[1:bsp$nEntries[stage]] %&gt;% sort]
+        }
+      }
+    } else { # Beyond stage 1
+      # Don&#39;t allow checks to be advanced: use 1:bsp$nEntries[stage-1]
+      id &lt;- last(records[[bsp$stageNames[which(bsp$stageNames==stage) -1]]])$id %&gt;% .[!. %in% bsp$checks@id]
+      selCritToAdv &lt;- selCrit[id]
+      indToAdv&lt;-selCritToAdv %&gt;% sort(.,decreasing = T) %&gt;% .[1:bsp$nEntries[stage]] %&gt;% names
+    }
+
+    entries &lt;- records$F1[indToAdv]
+    varE &lt;- bsp$gxyVar + (bsp$gxlVar + bsp$gxyxlVar + bsp$errVars[stage] / bsp$nReps[stage]) / bsp$nLocs[stage]
+    # reps=1 because varE is computed above
+    entries &lt;- setPheno(entries, varE=varE, reps=1, simParam=SP)
+    phenoRec &lt;- phenoRecFromPop(entries, bsp, stage)
+    # If provided, add checks to the population
+    if(!is.null(bsp$checks) &amp; bsp$nChks[stage] &gt; 0){
+      varE &lt;- bsp$gxyVar + (bsp$gxlVar + bsp$gxyxlVar + bsp$errVars[stage] / bsp$chkReps[stage]) / bsp$nLocs[stage]
+      chkPheno &lt;- setPheno(bsp$checks[1:bsp$nChks[stage]], varE=varE, reps=1, simParam=SP)
+      chkRec &lt;- phenoRecFromPop(chkPheno, bsp, stage, checks=T)
+      phenoRec &lt;- dplyr::bind_rows(phenoRec, chkRec)
+    }
+    toAdd &lt;- c(toAdd, list(phenoRec))</code></pre>
+</div>
+<div id="uyt-stage" class="section level5">
+<h5>UYT Stage</h5>
+<pre class="r"><code>stage &lt;- bsp$stageNames[3]
+stage</code></pre>
+<pre><code>[1] &quot;UYT&quot;</code></pre>
+<pre class="r"><code> # Make a summary for this stage
+    id &lt;- last(records[[stage]])$id %&gt;% .[!. %in% bsp$checks@id]
+    records$stageOutputs&lt;-records$stageOutputs %&gt;%
+      dplyr::bind_rows(stageOutputs(id=id, f1=records$F1, selCrit=selCrit,
+                                            stage=which(bsp$stageNames==stage),
+                                            year=year, bsp=bsp))
+    
+if(which(bsp$stageNames==stage) == 1){
+      # Stage 1 different: no phenotypes but full Pop-class
+      # Use phenotypes to select the F1 going into Stage 1?
+      if(bsp$phenoF1toStage1){ # Use phenotypes to choose what goes to Stage 1
+        phenoF1 &lt;- setPheno(records$F1[newF1Idx], varE=bsp$errVarPreStage1, onlyPheno=T, simParam=SP)
+        indToAdv &lt;- records$F1@id[nGenoRec - nF1 + (phenoF1 %&gt;% order(decreasing=T))[1:bsp$nEntries[stage]] %&gt;% sort]
+      } else {
+        # Do the F1 have genotypic values that could be used?
+        if(selCrit[newF1Idx] %&gt;% is.na %&gt;% all){ # Choose at random
+          indToAdv &lt;- records$F1@id[nGenoRec - nF1 + sort(sample(nF1, bsp$nEntries[stage]))]
+        } else { # Use selCrit
+          indToAdv &lt;- records$F1@id[nGenoRec - nF1 + (selCrit[newF1Idx] %&gt;%
+                                                        order(decreasing=T))[1:bsp$nEntries[stage]] %&gt;% sort]
+        }
+      }
+    } else { # Beyond stage 1
+      # Don&#39;t allow checks to be advanced: use 1:bsp$nEntries[stage-1]
+      id &lt;- last(records[[bsp$stageNames[which(bsp$stageNames==stage) -1]]])$id %&gt;% .[!. %in% bsp$checks@id]
+      selCritToAdv &lt;- selCrit[id]
+      indToAdv&lt;-selCritToAdv %&gt;% sort(.,decreasing = T) %&gt;% .[1:bsp$nEntries[stage]] %&gt;% names
+    }
+
+    entries &lt;- records$F1[indToAdv]
+    varE &lt;- bsp$gxyVar + (bsp$gxlVar + bsp$gxyxlVar + bsp$errVars[stage] / bsp$nReps[stage]) / bsp$nLocs[stage]
+    # reps=1 because varE is computed above
+    entries &lt;- setPheno(entries, varE=varE, reps=1, simParam=SP)
+    phenoRec &lt;- phenoRecFromPop(entries, bsp, stage)
+    # If provided, add checks to the population
+    if(!is.null(bsp$checks) &amp; bsp$nChks[stage] &gt; 0){
+      varE &lt;- bsp$gxyVar + (bsp$gxlVar + bsp$gxyxlVar + bsp$errVars[stage] / bsp$chkReps[stage]) / bsp$nLocs[stage]
+      chkPheno &lt;- setPheno(bsp$checks[1:bsp$nChks[stage]], varE=varE, reps=1, simParam=SP)
+      chkRec &lt;- phenoRecFromPop(chkPheno, bsp, stage, checks=T)
+      phenoRec &lt;- dplyr::bind_rows(phenoRec, chkRec)
+    }
+    toAdd &lt;- c(toAdd, list(phenoRec))</code></pre>
+<p>Finishing the <em>productPipelinePostBurnIn</em> function</p>
+<pre class="r"><code>  for(stage in bsp$stageNames){
+    records[[stage]] &lt;- c(records[[stage]], toAdd[which(bsp$stageNames==stage)])
+  }
+
+  # Remove old records if needed
+  if (length(records[[2]]) &gt; bsp$nCyclesToKeepRecords) records &lt;- removeOldestCyc(records, bsp)</code></pre>
+<p>Running the code of improvement population, which select the progenitor, and make the crosses</p>
+<pre class="r"><code>records &lt;- bsp$populationImprovement(records, bsp, SP)</code></pre>
+<pre><code>Warning: Outer names are only allowed for unnamed scalar atomic inputs</code></pre>
+<p>Then I runned all over again for more three times as a loop, from <strong>line 251</strong> of this RmarkDown file.</p>
+<p>Finishing the <em>runSchemePostBurnIn</em> function for one replicate.</p>
+<pre class="r"><code>      # Finalize the stageOutputs
+      records &lt;- AlphaSimHlpR:::lastCycStgOut(records, bsp, SP)
+
+      postBurnIn_IITA_PS &lt;- list(list(records=records,
+                                      bsp=bsp,
+                                      SP=SP))</code></pre>
+</div>
+</div>
+<div id="examples-running-the-new-code" class="section level2">
+<h2>Examples running the new code</h2>
+<p>Here is new <a href="SimulationExamples.html">examples</a></p>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span> Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 4.1.1 (2021-08-10)
+Platform: aarch64-apple-darwin20 (64-bit)
+Running under: macOS Big Sur 11.6.1
+
+Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/4.1-arm64/Resources/lib/libRblas.0.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/4.1-arm64/Resources/lib/libRlapack.dylib
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+ [1] here_1.0.1         furrr_0.2.3        future_1.23.0      forcats_0.5.1     
+ [5] stringr_1.4.0      purrr_0.3.4        readr_2.1.1        tidyr_1.1.4       
+ [9] tibble_3.1.6       ggplot2_3.3.5      tidyverse_1.3.1    AlphaSimHlpR_0.2.1
+[13] dplyr_1.0.7        AlphaSimR_1.0.4    R6_2.5.1           workflowr_1.7.0   
+
+loaded via a namespace (and not attached):
+ [1] nlme_3.1-153           fs_1.5.2               lubridate_1.8.0       
+ [4] httr_1.4.2             rprojroot_2.0.2        tools_4.1.1           
+ [7] backports_1.4.1        bslib_0.3.1            utf8_1.2.2            
+[10] DBI_1.1.2              colorspace_2.0-2       withr_2.4.3           
+[13] tidyselect_1.1.1       processx_3.5.2         compiler_4.1.1        
+[16] git2r_0.29.0           cli_3.1.0              rvest_1.0.2           
+[19] xml2_1.3.3             sass_0.4.0             scales_1.1.1          
+[22] callr_3.7.0            digest_0.6.29          minqa_1.2.4           
+[25] rmarkdown_2.11         RhpcBLASctl_0.21-247.1 pkgconfig_2.0.3       
+[28] htmltools_0.5.2        parallelly_1.30.0      lme4_1.1-27.1         
+[31] dbplyr_2.1.1           fastmap_1.1.0          rlang_0.4.12          
+[34] readxl_1.3.1           rstudioapi_0.13        jquerylib_0.1.4       
+[37] generics_0.1.1         jsonlite_1.7.2         magrittr_2.0.1        
+[40] Matrix_1.4-0           Rcpp_1.0.7             munsell_0.5.0         
+[43] fansi_1.0.0            lifecycle_1.0.1        stringi_1.7.6         
+[46] whisker_0.4            yaml_2.2.1             MASS_7.3-54           
+[49] grid_4.1.1             parallel_4.1.1         listenv_0.8.0         
+[52] promises_1.2.0.1       crayon_1.4.2           lattice_0.20-45       
+[55] haven_2.4.3            splines_4.1.1          hms_1.1.1             
+[58] knitr_1.37             ps_1.6.0               pillar_1.6.4          
+[61] boot_1.3-28            codetools_0.2-18       reprex_2.0.1          
+[64] glue_1.6.0             evaluate_0.14          getPass_0.2-2         
+[67] modelr_0.1.8           nloptr_1.2.2.3         vctrs_0.3.8           
+[70] tzdb_0.2.0             httpuv_1.6.5           cellranger_1.1.0      
+[73] gtable_0.3.0           assertthat_0.2.1       xfun_0.29             
+[76] broom_0.7.11           later_1.3.0            globals_0.14.0        
+[79] ellipsis_0.3.2        </code></pre>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+https://docs.mathjax.org/en/latest/web/configuration.html. This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
